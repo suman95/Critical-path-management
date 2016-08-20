@@ -8,7 +8,7 @@ Compile with any C++ compiler (Recomendded C++ version 11)
 Consider the following project plan <br />
 [![scree_shot.png](https://s14.postimg.org/67phepoxt/scree_shot.png)](https://postimg.org/image/rhd3pk58d/) <br />
 Input for above project plan will be as
-``
+```
 Enter the number of tasks : 5
 
 Enter task #1 : A<br />
@@ -40,6 +40,6 @@ Enter predecessors for task 4 : 2 3
 
 Enter successors for task 5 : 6<br />
 Enter predecessors for task 5 : 4
-``
+```
 # Results
 A table containing all values for tasks along with the critical path.
