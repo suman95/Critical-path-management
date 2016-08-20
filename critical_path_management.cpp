@@ -11,7 +11,7 @@
 #include <string>
 #include <stack>
 
-#define DBG 1   // set DBG 1 for debugging code and 0 for normal run
+#define DBG 0   // set DBG 1 for debugging code and 0 for normal run
 
 using namespace std;
 
@@ -19,8 +19,8 @@ struct activity {
 	string name;
 	int duration;
 	int es, ef, ls, lf, st;  // es : earliest start time , ef : earliest finish time
-							 // ls : latest start time ,  lf : latest finish time
-							 // st : slack time 
+				 // ls : latest start time ,  lf : latest finish time
+				 // st : slack time 
 };
 
 std::vector<int> ReadNumbers()
@@ -62,7 +62,7 @@ int main() {
 	cin>>n_tasks; // n_tasks is the number of tasks
 	
 	struct activity nodes[n_tasks+2]; // number of activities here 0th activity is the start
-									  // and the (n+1)th activity refers finish both having duration 0
+					  // and the (n+1)th activity refers finish both having duration 0
 
 	nodes[0].name = "Start";
 	nodes[0].duration = 0;
@@ -83,17 +83,14 @@ int main() {
 		cout<<"\t\t"<<i<<". "<<nodes[i].name<<" "<<nodes[i].duration<<endl;
 	}
 
-
 	vector< vector<int> > adj;
 	vector< vector<int> > pred;
-
 
 	vector<int> temp;
 	temp.push_back(1);
 	adj.push_back(temp);
 	vector<int> temp2;
 	pred.push_back(temp2);
-
 
 	for(i = 1 ; i <= n_tasks; i++) {
 		cout<<"\n\nEnter successors for task "<<i<<" : ";
@@ -127,8 +124,6 @@ int main() {
 			cout<<endl;
 		}
 	}
-
-	
 
 	// calculating earliest start and finish times for each task
 	// topological sort of task is required here
@@ -184,17 +179,6 @@ int main() {
 		nodes[top].ls = min_s - nodes[top].duration;
 		Stack2.pop();
 	}
-	//cout<<"\n\n";
-
-
-	
-
-	// queue<int> q2;
-	// vector<int> visited2(n_tasks+2,0);
-	// q2.push(n_tasks);
-
-
-
 
 
 	if(DBG) {
