@@ -6,7 +6,7 @@ Compile with any C++ compiler (Recomendded C++ version 11)
 
 # Inputs
 Consider the following project plan
-![Project Plan Screenshot](https://www.dropbox.com/s/kvr12opjc4uw61y/screen_shot.png)
+<img src="https://www.dropbox.com/s/kvr12opjc4uw61y/screen_shot.png" /> <br />
 Input for above project plan will be as
 
 Enter the number of tasks : 5
