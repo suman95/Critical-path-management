@@ -9,6 +9,7 @@
 #include <vector>
 #include <queue>
 #include <string>
+#include <stack>
 
 #define DBG 1   // set DBG 1 for debugging code and 0 for normal run
 
@@ -35,6 +36,20 @@ std::vector<int> ReadNumbers()
 
     return numbers ;
 }
+
+
+void topologicalSortUtil(int v, vector<bool> &visited,  stack<int> &Stack, vector< vector<int> > &adj)
+{
+    visited[v] = true;
+ 
+    vector<int>::iterator i;
+    for (i = adj[v].begin(); i != adj[v].end(); ++i)
+        if (!visited[*i])
+            topologicalSortUtil(*i, visited, Stack, adj);
+ 
+    Stack.push(v);
+}
+
 
 int main() {
 
@@ -88,13 +103,13 @@ int main() {
 		vector<int> temp2 = ReadNumbers();
 		pred.push_back(temp2);
 	}
-
+	adj.push_back(temp2);
 	temp2.push_back(n_tasks);
 	pred.push_back(temp2);
 
 	if(DBG) {
 		//debugging
-		cout<<"Adjacency matrix :\n";
+		cout<<"Successor matrix :\n";
 		for(i = 0 ; i < n_tasks+2; i++) {
 			cout<<i<<" : ";
 			for(j = 0 ; j < adj[i].size(); j++) {
@@ -103,7 +118,7 @@ int main() {
 			cout<<endl;
 		}
 
-		cout<<"Precedence matrix :\n";
+		cout<<"Predecessor matrix :\n";
 		for(i = 0 ; i < n_tasks+2; i++) {
 			cout<<i<<" : ";
 			for(j = 0 ; j < pred[i].size(); j++) {
@@ -116,18 +131,18 @@ int main() {
 	
 
 	// calculating earliest start and finish times for each task
+	// topological sort of task is required here
 
-	queue<int> q;
-	vector<int> visited(n_tasks+2,0);
-	q.push(1);
-
+	stack<int> Stack;
+	vector<bool> visit(n_tasks+2, false);
+	topologicalSortUtil(0,visit, Stack, adj);
+	
 	nodes[0].es = 0;
 	nodes[0].ef = 0;
-	
-	while(!q.empty()) {
-		top = q.front();
-		q.pop();
-		visited[top] = 1;
+	Stack.pop();
+
+	while(!Stack.empty()) {
+		top = Stack.top();
 		int max_f = -1;
 		for(i = 0; i < pred[top].size(); i++) {
 			if(max_f < nodes[pred[top][i]].ef) {
@@ -136,12 +151,9 @@ int main() {
 		}
 		nodes[top].es = max_f;
 		nodes[top].ef = max_f + nodes[top].duration;
-		for(i = 0 ; i < adj[top].size(); i++) {
-			if(visited[adj[top][i]] == 0){
-				q.push(adj[top][i]);
-			}
-		}
+		Stack.pop();
 	}
+
 
 	if(DBG) {
 		cout<<"Es and Ef : \n";
@@ -152,17 +164,16 @@ int main() {
 
 	// calculating latest start and finish time for each task
 
+	stack<int> Stack2;
+	vector<bool> visit2(n_tasks+2, false);
+
+	topologicalSortUtil(n_tasks+1, visit2, Stack2, pred);
+
 	nodes[n_tasks+1].ls = nodes[n_tasks+1].es;
 	nodes[n_tasks+1].lf = nodes[n_tasks+1].ef;
-
-	queue<int> q2;
-	vector<int> visited2(n_tasks+2,0);
-	q2.push(n_tasks);
-
-	while(!q2.empty()) {
-		top = q2.front();
-		q2.pop();
-		visited2[top] = 1;
+	Stack2.pop();
+	while(!Stack2.empty()) {
+		top = Stack2.top();
 		int min_s = 99999;
 		for(i = 0; i < adj[top].size(); i++) {
 			if(min_s > nodes[adj[top][i]].ls) {
@@ -171,12 +182,20 @@ int main() {
 		}
 		nodes[top].lf = min_s;
 		nodes[top].ls = min_s - nodes[top].duration;
-		for(i = 0 ; i < pred[top].size(); i++) {
-			if(visited2[pred[top][i]] == 0){
-				q2.push(pred[top][i]);
-			}
-		}
+		Stack2.pop();
 	}
+	//cout<<"\n\n";
+
+
+	
+
+	// queue<int> q2;
+	// vector<int> visited2(n_tasks+2,0);
+	// q2.push(n_tasks);
+
+
+
+
 
 	if(DBG) {
 		cout<<"Ls and Lf : \n";
