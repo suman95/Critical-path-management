@@ -1,8 +1,8 @@
 # Critical-path-management
-A complete C++ code for Critical path Management i.e. for finding critical path, slack times etc.
+A complete C++ code for Critical path Management i.e. for finding critical path, slack times etc. 
 
 # Usage
-Compile with any C++ compiler (Recomendded C++ version 11)
+Compile with any C++ compiler (Recomendded C++ version 11). Repository also contains two input files ```in.txt``` and ```in2.txt``` as sample inputs.
 
 ## Inputs
 Consider the following project plan <br />
