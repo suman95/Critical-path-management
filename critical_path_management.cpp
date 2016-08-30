@@ -2,6 +2,7 @@
 
 // Author : Suman Sahu
 // 			712CS2151
+//          CSE Dept. NIT RKL, 2016
 
 // To be comipled using C++11 
 
@@ -23,6 +24,8 @@ struct activity {
 							 // st : slack time 
 };
 
+
+// returns vector of n numbers for input
 std::vector<int> ReadNumbers()
 {
     std::vector<int> numbers ;
@@ -32,12 +35,12 @@ std::vector<int> ReadNumbers()
         int input ;
         if ( std::cin >> input )
             numbers.push_back(input) ;
-    } while ( std::cin && std::cin.peek() != '\n' ) ;
+    }while ( std::cin && std::cin.peek() != '\n' );
 
     return numbers ;
 }
 
-
+// utility for topological sorting of activity graph
 void topologicalSortUtil(int v, vector<bool> &visited,  stack<int> &Stack, vector< vector<int> > &adj)
 {
     visited[v] = true;
@@ -53,7 +56,7 @@ void topologicalSortUtil(int v, vector<bool> &visited,  stack<int> &Stack, vecto
 
 int main() {
 
-
+	
 	int i,n_tasks,top,j;
 
 
@@ -84,32 +87,39 @@ int main() {
 	}
 
 
-	vector< vector<int> > adj;
-	vector< vector<int> > pred;
+	vector< vector<int> > adj;  // adj represents sucessor list
+	vector< vector<int> > pred; // pred reperesents predecessor list
 
 
-	vector<int> temp;
-	temp.push_back(1);
-	adj.push_back(temp);
-	vector<int> temp2;
-	pred.push_back(temp2);
-
-
-	for(i = 1 ; i <= n_tasks; i++) {
-		cout<<"\n\nEnter successors for task "<<i<<" : ";
-		vector<int> temp = ReadNumbers();
+	// initialization of both lists with empty vectors
+	for(i = 0 ; i <= n_tasks; i++) {
+		vector<int> temp;
 		adj.push_back(temp);
-		cout<<"Enter predecessors for task "<<i<<" : ";
-		vector<int> temp2 = ReadNumbers();
-		pred.push_back(temp2);
+		pred.push_back(temp);
 	}
-	adj.push_back(temp2);
-	temp2.push_back(n_tasks);
-	pred.push_back(temp2);
+
+	// initialization of successor list based on user input
+	// NOTE : User need to input all the tasks with no predecessors as the successor of "Start"
+	cout<<"\n\nNOTE : User need to input all the tasks with no predecessors as the successor of \"Start\"";
+	for(i = 0 ; i <= n_tasks; i++) {
+		cout<<"\n\nEnter successors for task "<<nodes[i].name<<" : ";
+		vector<int> temp = ReadNumbers();
+		if(temp.size()==0){
+			adj[i].push_back(n_tasks);
+			pred[n_tasks].push_back(i);
+		}
+		else {
+			for(int j=0; j<temp.size(); j++)
+				adj[i].push_back(temp[j]);
+			for(int j=0;j < temp.size(); j++)
+				pred[temp[j]].push_back(i);
+		}
+
+	}
 
 	if(DBG) {
 		//debugging
-		cout<<"Successor matrix :\n";
+		cout<<"\nSuccessor matrix :\n";
 		for(i = 0 ; i < n_tasks+2; i++) {
 			cout<<i<<" : ";
 			for(j = 0 ; j < adj[i].size(); j++) {
