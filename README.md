@@ -26,20 +26,17 @@ Enter duration for 4 : 30
 Enter task #5 : E
 Enter duration for 5 : 10
 
-Enter successors for task 1 : 2 3
-Enter predecessors for task 1 : 0
+Enter successors for task Start : 1
 
-Enter successors for task 2 : 4
-Enter predecessors for task 2 : 1
+Enter successors for task A : 2 3
 
-Enter successors for task 3 : 4
-Enter predecessors for task 3 : 1
+Enter successors for task B : 4
 
-Enter successors for task 4 : 5
-Enter predecessors for task 4 : 2 3
+Enter successors for task C : 4
 
-Enter successors for task 5 : 6
-Enter predecessors for task 5 : 4
+Enter successors for task D : 5
+
+Enter successors for task E : 6
 ```
 # Results
 A table containing all values for tasks along with the critical path.<br />
