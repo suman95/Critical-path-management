@@ -4,7 +4,7 @@ A complete C++ code for Critical path Management i.e. for finding critical path,
 # Usage
 Compile with any C++ compiler (Recomendded C++ version 11)
 
-# Inputs
+## Inputs
 Consider the following project plan <br />
 [![scree_shot.png](https://s19.postimg.org/a1o4pjaqb/scree_shot.png)](https://postimg.org/image/l19c1515b/) <br />
 Input for above project plan will be as
@@ -43,4 +43,5 @@ Enter predecessors for task 5 : 4
 ```
 # Results
 A table containing all values for tasks along with the critical path.<br />
+*Note : The Program includes dummy Start and Finish Activities with duration 0 for ease.* 
 [![scree2.png](https://s19.postimg.org/vzkljbpqr/scree2.png)](https://postimg.org/image/3zghz1ma7/)

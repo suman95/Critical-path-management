@@ -4,15 +4,23 @@
 // 			712CS2151
 //          CSE Dept. NIT RKL, 2016
 
-// To be comipled using C++11 
+// To be comipled using C++11
+
+/*
+
+Generates plot_graph.plt for plotting graph
+
+*/ 
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <queue>
 #include <string>
 #include <stack>
 
 #define DBG 1   // set DBG 1 for debugging code and 0 for normal run
+#define PLOT_GRAPH 1 // set 1 for plotting graph if system meets necessary requirements 
 
 using namespace std;
 
@@ -58,12 +66,19 @@ int main() {
 
 	
 	int i,n_tasks,top,j;
+	// if(PLOT_GRAPH) {
+		ofstream f;
+		f.open("plot_graph.plt");
 
-
+	// }
 	cout<<"############## Critical Path management ################\n\n";
 	cout<<"Enter the number of tasks : ";
 	cin>>n_tasks; // n_tasks is the number of tasks
 	
+	if(PLOT_GRAPH) {
+		f<<n_tasks<<endl;
+	}
+
 	struct activity nodes[n_tasks+2]; // number of activities here 0th activity is the start
 									  // and the (n+1)th activity refers finish both having duration 0
 
@@ -72,6 +87,9 @@ int main() {
 	nodes[n_tasks+1].name = "Finish";
 	nodes[n_tasks+1].duration = 0;
 
+	if(PLOT_GRAPH) {
+		f<<"Start"<<" "<<"0"<<endl;
+	}
 	// input of all the tasks
 	for(i = 1 ; i <= n_tasks; i++) {
 		cout<<"\n\nEnter task #"<<i<<" : ";
@@ -79,8 +97,13 @@ int main() {
 		//getline(cin, nodes[i].name);
 		cout<<"Enter duration for "<<i<<" : ";
 		cin>>nodes[i].duration;
+		if(PLOT_GRAPH) {
+			f<<nodes[i].name<<" "<<nodes[i].duration<<endl;
+		}
 	}
-
+	if(PLOT_GRAPH) {
+		f<<"Finish"<<" "<<"0"<<endl;
+	}
 	cout<<"\n\n\t\tTasks entered :\n";
 	for(i = 0 ; i <= n_tasks+1; i++) {
 		cout<<"\t\t"<<i<<". "<<nodes[i].name<<" "<<nodes[i].duration<<endl;
@@ -107,12 +130,20 @@ int main() {
 		if(temp.size()==0){
 			adj[i].push_back(n_tasks);
 			pred[n_tasks].push_back(i);
+			if(PLOT_GRAPH) {
+				f<<i<<" "<<n_tasks<<endl;
+			}
 		}
 		else {
 			for(int j=0; j<temp.size(); j++)
 				adj[i].push_back(temp[j]);
 			for(int j=0;j < temp.size(); j++)
 				pred[temp[j]].push_back(i);
+			if(PLOT_GRAPH) {
+				for(int j=0;j<temp.size();j++){
+					f<<i<<" "<<temp[j]<<endl;
+				}
+			}
 		}
 
 	}
@@ -247,10 +278,15 @@ int main() {
 
 	cout<<"Critical Path : ";
 	for(i = 0 ; i < critical_path.size(); i++) {
-		if(critical_path[i])
+		if(critical_path[i]){
 		 cout<<nodes[i].name<<"->";
+		 f<<i<<" ";
+		}
 	}
 	cout<<endl;
+	f<<endl;
+	f.close();
+
 
 	return 0;
 
