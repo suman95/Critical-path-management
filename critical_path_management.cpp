@@ -12,12 +12,18 @@ Generates plot_graph.plt for plotting graph
 
 */ 
 
+#include <cstdio>
+#include <memory>
+#include <stdexcept>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <queue>
 #include <string>
 #include <stack>
+
+
 
 #define DBG 1   // set DBG 1 for debugging code and 0 for normal run
 #define PLOT_GRAPH 1 // set 1 for plotting graph if system meets necessary requirements 
@@ -31,6 +37,18 @@ struct activity {
 							 // ls : latest start time ,  lf : latest finish time
 							 // st : slack time 
 };
+
+std::string exec(const char* cmd) {
+    char buffer[128];
+    std::string result = "";
+    std::shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) throw std::runtime_error("popen() failed!");
+    while (!feof(pipe.get())) {
+        if (fgets(buffer, 128, pipe.get()) != NULL)
+            result += buffer;
+    }
+    return result;
+}
 
 
 // returns vector of n numbers for input
@@ -147,7 +165,7 @@ int main() {
 		}
 
 	}
-
+	f<<"quit"<<endl;
 	if(DBG) {
 		//debugging
 		cout<<"\nSuccessor matrix :\n";
@@ -261,7 +279,7 @@ int main() {
 	queue<int> q3;
 	vector<int> visited3(n_tasks+2,0);
 	vector<int> critical_path(n_tasks+2,0);
-	q3.push(1);
+	q3.push(0);
 	critical_path[0] = 1;
 	while(!q3.empty()) {
 		top = q3.front();
@@ -278,7 +296,7 @@ int main() {
 
 	cout<<"Critical Path : ";
 	for(i = 0 ; i < critical_path.size(); i++) {
-		if(critical_path[i]){
+		if(critical_path[i]==1){
 		 cout<<nodes[i].name<<"->";
 		 f<<i<<" ";
 		}
@@ -286,7 +304,7 @@ int main() {
 	cout<<endl;
 	f<<endl;
 	f.close();
-
+	exec("python3 plot_graph2.py < plot_graph.plt");
 
 	return 0;
 
