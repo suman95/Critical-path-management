@@ -3,6 +3,8 @@ A complete C++ code for Critical path Management i.e. for finding critical path,
 
 # Usage
 Compile with any C++ compiler (Recomendded C++ version 11). Repository also contains two input files ```in.txt``` and ```in2.txt``` as sample inputs.
+For plotting graph in ```pdf``` format linux system having [Python3.x](https://www.python.org/download/releases/3.0/) with [PyGraphviz](https://pygraphviz.github.io/) package is required. If plot is not required 
+change ```#define PLOT_GRAPH 1``` to ```#define PLOT_GRAPH 0``` in ```critical_path_management.cpp``` file.
 
 ## Inputs
 Consider the following project plan <br />
@@ -42,3 +44,6 @@ Enter successors for task E : 6
 A table containing all values for tasks along with the critical path.<br />
 *Note : The Program includes dummy Start and Finish Activities with duration 0 for ease.* 
 [![scree2.png](https://s19.postimg.org/vzkljbpqr/scree2.png)](https://postimg.org/image/3zghz1ma7/)
+
+Along with above table following ```pdf``` file is also generated for the above flow diagram along with the critical edges in red color.<br />
+[![CRITICAL.png](https://s19.postimg.org/xq10hq6s3/CRITICAL.png)](https://postimg.org/image/p7rkde09b/)
